@@ -3,15 +3,16 @@ import React, {useState} from 'react'
 const FormTwo = () => {
 // This is a way to have less handlers and less state
     const [movie, setMovie] = useState({
-        title: '',
-        year: '',
+        title: 'W',
+        year: '1999',
         views: ''
     })
 
     const handleMovie = e => {
         // console.log(movie['title'])
-        console.log(e.target)
+        // console.log(e.target)
         setMovie({...movie, [e.target.name]:e.target.value})
+        console.log(movie)
     }
 
     const createMovie = e => {
