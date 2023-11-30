@@ -1,14 +1,19 @@
-# MERN | Week Five Day One
-#### November 28th, 2023
+# MERN | Week Five Day Two
+#### November 29th, 2023
 
 ## Housekeeping:
 - Discussion Questions due 12/6
 - Core Assignment: Jokes API
 
-## Agenda:
+## Recap :
 - Modularize our Backend
     - Config
     - Models
     - Routes
     - Controllers
+
+## Agenda:
+- Finish CRUD Functionality
+- Look through Mongoose Documentation
+- Add Mongoose Validation
 

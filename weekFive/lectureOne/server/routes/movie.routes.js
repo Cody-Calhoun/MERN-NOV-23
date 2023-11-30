@@ -8,12 +8,12 @@ module.exports = (app) => {
     // CREATE
     app.post('/api/movies', MovieController.createMovie);
 
-    // GET ONE
+    // // GET ONE
     app.get('/api/movies/:id', MovieController.getOneMovie);
 
-    // UPDATE
+    // // UPDATE
     app.put('/api/movies/:id', MovieController.updateMovie);
 
-    // DELETE
+    // // DELETE
     app.delete('/api/movies/:id', MovieController.deleteMovie);
 }
