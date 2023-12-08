@@ -1,80 +1,48 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import {useParams, useNavigate} from 'react-router-dom'
 
-const BookForm = () => {
+const EditBook = () => {
+    const {id} = useParams()
+    const navigate = useNavigate()
 
-  const [book, setBook] = useState({
-    title: '',
-    author: '',
-    pages: '',
-    publishYear: '',
-    genre: ''
-  })
+    const [book, setBook] = useState({})
+    const [errors, setErrors] = useState({})
 
-  const [errors, setErrors] = useState({})
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/books/${id}`)
+            .then(res => {
+                setBook(res.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
-  const changeHandler = (e) => {
-    setBook({...book, [e.target.name]: e.target.value})
-  }
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    // if (formValidations(book)) {
-      axios.post('http://localhost:8000/api/books', book)
-        .then(res => {
-          setBook({
-            title: '',
-            author: '',
-            pages: '',
-            publishYear: '',
-            genre: ''
+    const changeHandler = (e) => {
+        setBook({
+            ...book,
+            [e.target.name]: e.target.value
         })
-      })
-        .catch(err => {
-          // console.log(err.response.data.errors)
-          setErrors(err.response.data.errors)
-        })
-  // console.log("After the axios.post")
+    }
 
-}
+    const submitHandler = (e) => {
+        e.preventDefault()
+        axios.put(`http://localhost:8000/api/books/${id}`, book)
+            .then(res => {
+                if(res.data.errors) {
+                    console.log("In Error Message")
+                    setErrors(err.response.data.errors)
+                } else {
+                    navigate("/")
+                }
+            })
+            .catch(err => setErrors(err.response.data.errors))
+    }
 
-  // const formValidations = (book) => {
-  //   let isValid = true
-  //   let bookErrors = {}
-
-  //   if(book.title.length < 3) {
-  //     bookErrors.title = "Title must be at least 3 characters"
-  //     isValid = false
-  //   }
-
-  //   if(book.author.length < 3) {
-  //     bookErrors.author = "Author must be at least 3 characters"
-  //     isValid = false
-  //   }
-
-  //   if(book.pages < 1) {
-  //     bookErrors.pages = "Pages must be at least 1"
-  //     isValid = false
-  //   }
-
-  //   if(book.publishYear < 1) {
-  //     bookErrors.publishYear = "Publish Year must be at least 1"
-  //     isValid = false
-  //   }
-
-  //   if(book.genre.length < 3) {
-  //     bookErrors.genre = "Genre must be at least 3 characters"
-  //     isValid = false
-  //   }
-
-  //   setErrors(bookErrors)
-  //   return isValid
-  // }
 
   return (
     <div>
       <form className="col-md-4 offset-4" onSubmit={submitHandler}>
-      <h1 className="mb-3">Create a Book</h1>
+      <h1 className="mb-3">Edit Book</h1>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Title</label>
           <input type="text" className="form-control" id="title" name="title" value={book.title} onChange={changeHandler}/>
@@ -100,10 +68,10 @@ const BookForm = () => {
           <input type="text" className="form-control" id="genre" name="genre" value={book.genre} onChange={changeHandler}/>
           {errors.genre ? <p className="text-danger">{errors.genre.message}</p> : null}
         </div>
-        <button type="submit" className="btn btn-primary">Create a Book</button>
+        <button type="submit" className="btn btn-primary">Edit Book</button>
       </form>
     </div>
   )
 }
 
-export default BookForm
+export default EditBook

@@ -33,8 +33,7 @@ module.exports = {
                     res.json(newBook);
                 })
                 .catch((err) => {
-                    console.log(err);
-                    res.json(err);
+                    res.status(500).json(err);
                 })
         },
 
@@ -49,7 +48,7 @@ module.exports = {
                     res.json(updatedBook);
                 })
                 .catch((err) => {
-                    res.json(err);
+                    res.status(500).json(err);
                 })
         },
 
